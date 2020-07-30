@@ -1,0 +1,20 @@
+# .DS_Store
+.DS_Store
+
+# Jupyter Checkpoints
+
+.ipynb_checkpoints
+
+*/.ipynb_checkpoints/*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Keys
+api_keys_all.py
+
+# Folders:
+
+WebVisualizations/.DS-Store
+
+DATA_COVID_19_OriginaGitHub/
