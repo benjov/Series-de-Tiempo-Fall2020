@@ -30,6 +30,7 @@ d) Función de Autocorrelación, Función de Autocorrelación Parcial y Pronóst
 ## 4.  Modelos univariados de volatilidad
 
 a) Modelos ARCH y GARCH
+
 b) Otros ejemplos de modelos de volatilidad
 
 ## 5. Procesos No Estacionarios
