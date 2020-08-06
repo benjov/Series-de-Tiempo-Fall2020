@@ -10,7 +10,7 @@ library(dplyr)
 library(readxl)
 # 
 #****************************************************************************************
-setwd("/Users/benjaminolivavazquez/Documents/Personal/Cursos_UNAM/SERIES_2021-I")
+setwd("/Users/benjaminolivavazquez/Documents/Personal/Cursos_UNAM/SERIES_2021-I/Series-de-Tiempo-Fall2020/Clase_3")
 getwd()
 
 #****************************************************************************************
@@ -204,6 +204,6 @@ Tabla_Pax_Metro
 acf(Pax_Metro, 
     lag.max = 150, 
     xlab = 'Resagos k en meses', 
-    main="Funcion de Autocorrelacion del número de pasajeros del metro")
+    main="Funcion de Autocorrelación del número de pasajeros del metro")
 
 #

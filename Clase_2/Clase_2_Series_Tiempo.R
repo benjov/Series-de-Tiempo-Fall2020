@@ -7,7 +7,7 @@
 library(ggplot2)
 library(dplyr)
 #****************************************************************************************
-setwd("/Users/benjaminolivavazquez/Documents/Personal/Cursos_UNAM/SERIES_2021-I")
+setwd("/Users/benjaminolivavazquez/Documents/Personal/Cursos_UNAM/SERIES_2021-I/Series-de-Tiempo-Fall2020/Clase_2")
 
 getwd()
 
@@ -172,4 +172,3 @@ par(new = FALSE)
 
 #****************************************************************************************
 #
-

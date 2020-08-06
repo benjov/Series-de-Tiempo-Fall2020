@@ -4,7 +4,7 @@
 #****************************************************************************************
 getwd()
 # Cambiar la siguiente ruta dependiendo de la ubicación en sus equipos
-setwd("/Users/benjaminolivavazquez/Documents/Personal/Cursos_UNAM/SERIES_2021-I")
+setwd("/Users/benjaminolivavazquez/Documents/Personal/Cursos_UNAM/SERIES_2021-I/Series-de-Tiempo-Fall2020/Clase_0.5")
 
 getwd()
 
