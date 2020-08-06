@@ -67,6 +67,10 @@ c) Cointegración de Modelos de Vectores Autoregresivos
 
 d) Cointegración y la Teoría Económica
 
-##  8. Modelos multivariados de volatilidad:M−ARCHyM−GARCH
+##  8. Modelos multivariados de volatilidad 
 
-## 9. Otros modelos no lineales (con rompimientos y modelos de cambio deregimen)
+a) M−ARCH
+
+b) M−GARCH
+
+## 9. Otros modelos no lineales (con rompimientos y modelos de cambio de regimen)
