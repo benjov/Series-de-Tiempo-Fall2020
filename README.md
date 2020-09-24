@@ -1,4 +1,4 @@
-# Series-de-Tiempo-Fall2020
+# Series-de-Tiempo-Fall 2020
 Material del Curso de Series de Tiempo
 
 # Temario.
