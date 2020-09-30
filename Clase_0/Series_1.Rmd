@@ -1,0 +1,246 @@
+---
+title: "Introducción a R"
+author: "Benjamin Oliva & Omar Alfaro"
+date: "Series de tiempo, Sep-2020"
+fontsize: 10
+output: 
+  beamer_presentation:
+    theme: "CambridgeUS"
+    colortheme: "beaver"
+    fonttheme: "structurebold"
+    slide_level: 2
+    toc: TRUE
+urlcolor: blue
+---
+
+# Conocimientos escenciales sobre la programación en R 
+ 
+## Breve historia
+
+* Lenguaje de programación __orientado a objetos__.
+
+* R es un lenguage de programación y ambiente de trabajo enfocado al __computo estadístico y generación de gráficos__.
+
+* Se trata de un desarrollo a partir del lenguaje S (laboratorios Bell), el cual fue un lenguaje de programación muy popular en la década de los 80's, el gran diferenciador es que _R_ es un ___software libre___ (proyecto [GNU](http://www.gnu.org/)). 
+
+* La interfaz más utilizada entre los usuarios de _R_, es _R Studio_. Esto es debido a la amabilidad que esta opción representa para los usuarios.
+
+## instalación 
+
+Realizar la descarga seleccionando alguna de las opciones disponibles para el país. Abrir el instalador, es recomendable que para el usuario que no tiene experiencia en el tema, seleccione todas las opciones señaladas por defecto. 
+
+> [Liga para descargar R](https://cran.r-project.org/mirrors.html)
+
+Seleccionar RStudio Desketop y realizar la descarga. Abrir el instalador, también es recomendable dejar las opciones por defecto a menos de se esté seguro de lo que se está haciendo. 
+
+> [Liga para descargar R Studio](https://rstudio.com/products/rstudio/download/)
+
+
+## Reglas importantes
+
+ 1. R es case sensitive, lo que significa que __distingue entre minusculas y mayusculas__
+ 2. Todo lo que se escribe despues del simbolo de "#", __R lo considera un comentario__
+ 3. Para __ejecutar una linea__ de comando se utiliza "Control + Enter"
+ 4. Para __limpiar la Consola__ se utiliza "Control + L"
+ 5. Utilizar _";"_ funciona para realizar más de una tarea en la misma línea de código
+ 6. En R existen un conjunto de __palabras reservadas__, como lo son: break, for, function, if, in, next, repeat, return, while, True, False, y algunas otras
+
+## Clases de objetos
+
+```{r}
+class("a")
+class("R">"Python"); "R" > "Python"; 5<2
+class(2); class(as.integer(2))
+```
+
+## Clases de objetos (Asignaciones y Operaciones algebraicas)
+
+Para asignar objetos utilizamos '<-' o en su defecto '='
+```{r}
+ObjetoGuardado <- c(1,2,3,5,7,11,13,17)
+```
+Suma (+), Resta (-), división (/), multiplicación (* ), potencia (**), raíz cuadrada (sqrt()),
+logaritmico (log()), exponencial() 
+```{r}
+ObjetoGuardado+5
+ObjetoGuardado*5
+round(ObjetoGuardado**(1/2),2)
+```
+
+
+
+## Clases de objetos (Vectores y listas)
+Vectores que agrupan un mismo tipo de datos _c()_
+```{r}
+class(ObjetoGuardado)
+```
+
+Listas: vectores que agrupan distintos tipos de datos 
+```{r}
+ListaGuardada <- list("Omar",24,TRUE); ListaGuardada
+```
+
+## Clases de objetos (Matrix)
+
+Las matrices son arreglos bidimensionales que guardan objetos del mismo tipo  
+```{r warning=FALSE}
+matrix(ObjetoGuardado, nrow = 3)
+```
+Matriz inversa
+```{r warning=FALSE}
+solve(matrix(ObjetoGuardado, nrow = 3))
+```
+
+## Clases de objetos (DataFrame)
+Los DataFrame son arreglos bidimensionales que guardan objetos de distinto tipo 
+```{r}
+miData = data.frame(ListaGuardada)
+names(miData) = c("Nombre", "Edad", "PEA")
+miData
+```
+Extracción 
+```{r}
+miData$Nombre
+miData[1,2]
+```
+
+## Clases de objetos (Funciones)
+
+Las funciones son una clase de objetos de gran utilidad porque permiten realizar operaciones sobre otros objetos. R tiene un buen número de funciones cargadas atuomáticamente cuando se instala el programa. 
+
+```{R}
+sum(ObjetoGuardado)
+mean(ObjetoGuardado)
+sd(ObjetoGuardado)
+sample(ObjetoGuardado,3)
+```
+
+## Clases de Objetos (Funciones)
+
+En caso de que la tarea que se desee realizar no se encuentre en el sistema base de R, es posible crearla:
+
+```{r}
+m_podada <- function(x, n){
+  N = length(x)
+  x = x[(n+1):(N-n)]
+  sum(x)/length(x)
+}
+m_podada(ObjetoGuardado,2)
+```
+R se encuentra en constante desarrollo por su propia comunidad, de tal modo que resulta muy probable que nuestras necesidades se encuentren resueltas en algún repositorio ([Paquetería para econometristas](https://cran.r-project.org/web/views/Econometrics.html))
+
+```{r}
+#install.packages("AER")
+library(AER)
+```
+
+
+## Resumen 
+
+ 1. En R existen una serie de reglas y convenciones para evitar la aparición de errores a la hora de probar nuestro código
+ 2. En R ( así como en muchos otros lenguajes de programación orientados a objetos), básicamente todo es un objeto
+ 3. Podemos tener tres grandes agrupaciones de clases de objetos 
+    - Clases de objetos que describen la naturaleza de los datos (Son números, texto, etc)
+    - Clases de objetos que agrupan datos de la misma o distinta naturaleza (Vectores, listas, matrix, Data Frames, etc)
+    - Clases de objeto que operan sobre los otros tipos de datos (Funciones) y funcionan con argumentos, al usar este tipo de objetos básicamente se deben responder tres preguntas: __¿Qué deseo hacer?__, __¿A qué conjunto de datos pretendo realizarlo?__, __¿He dado los detalles suficientes para obtener lo que deseo?__
+  
+  
+# Caso práctico 
+
+## Paquetería quantmod
+
+```{r message=FALSE, warning=FALSE}
+#install.packages("quantmod")
+library(quantmod)
+options("getSymbols.warning4.0"=FALSE)
+```
+
+Descargamos la serie de las acciones Amazon
+```{r message=FALSE, warning=FALSE}
+getSymbols("AMZN")
+head(AMZN, 2)
+```
+## Gráfica 
+
+```{r out.width = "80%", fig.align='center'}
+chartSeries(AMZN)
+```
+
+## Datos de NASDAQ
+```{r message=FALSE, warning=FALSE}
+getSymbols("NDAQ")
+str(NDAQ)
+```
+
+
+## Series en Diferencias
+
+$\Delta(Z_{i,t}) = ln(Z_{i,t})-ln(Z_{i,t-1})$
+
+$\Delta(Z_{i,t}) = ln(Z_{i,t})-ln(LZ_{i,t})$
+```{r}
+lnAMZN <- log(AMZN$AMZN.Adjusted)
+diffAMZN <- diff(lnAMZN)
+lnNDAQ <- log(NDAQ$NDAQ.Adjusted)
+diffNDAQ <-diff(lnNDAQ)
+```
+
+```{r echo=FALSE, out.width = "100%", out.height = "55%"}
+par(mfrow=c(1,2))
+plot(diffAMZN)
+plot(diffNDAQ)
+```
+
+## Dispersión 
+```{r echo=FALSE, warning=FALSE, message=FALSE, out.height = "80%", , fig.align='center'}
+AMZNN<-as.numeric(diffAMZN); NASDAQQ<-as.numeric(diffNDAQ)
+library(ggplot2)
+ggplot()+
+  geom_point(aes(x=NASDAQQ, y=AMZNN, alpha=0.05))+
+  geom_smooth(aes(x=NASDAQQ, y=AMZNN), se=FALSE)+
+  labs(title="Gráfico de dispersión AMZN~NDAQ")
+```
+
+## Riesgo sistémico
+
+```{r  results='asis',echo=FALSE, warning=FALSE, message=FALSE}
+library(stargazer)
+reg1 <- lm(AMZNN~NASDAQQ)
+stargazer(reg1,header = FALSE, font.size="tiny", title = "Riesgo sistémico de AMZN", style = "aer")
+```
+# Recursos para apender R 
+## Plataformas
+* Coursera
+  - Introducción a Data Science: Programación Estadística con R, UNAM
+  - Python for Everybody, Michigan University
+  - Statistics with R Specialization, Duke University
+  - Data Science Specialization, John Hopkins University
+  - Business Analytics Specialization, ESSEC busines school
+* Edx
+  - Data Science Professional Certificate, Harvard University
+* Comunidad de usuarios de R 
+  - #Rstats
+  - R-ladies
+
+## Toolbox
+
+* [Tidyverse](https://www.tidyverse.org/)
+* [R for Data Science](https://r4ds.had.co.nz/)
+* [Rmarkdown](https://bookdown.org/yihui/rmarkdown/)
+* [Git](https://happygitwithr.com/)
+
+## Consejos para mejorar la experiencia 
+* Aprovechen a los profesores en esta clase
+* Encontrar grupos de estudio interesados en R 
+* Realizar proyectos constantemente (académicos, profesionales y personales )
+* Hacer de la busqueda en la red un hábito 
+  - [Stackoverflow](https://stackoverflow.com/)
+  - [Github](https://github.com/)
+  
+```{r echo=FALSE, message=FALSE, warning=FALSE,  out.width = "60%", fig.align='right'}
+library(jpeg)
+library(knitr)
+img_path <- "stack.jpg"
+include_graphics(img_path)
+```
+
