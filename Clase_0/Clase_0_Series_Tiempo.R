@@ -3,215 +3,147 @@
 
 #****************************************************************************************
 # Reglas importantes:
-# 1. R es case sensitive - por lo que si distingue entre minusculas y mayusculas
-# 2. Todo lo que se escribe despues del simbolo de "#", R lo considera como comentarios
-# 3. Para ejecutar una linea de comando se utiliza "Control + Enter"
-# 4. Para limpiar la Consola se utiliza "Control + L"
+#  1. R es case sensitive, lo que significa que __distingue entre minusculas y mayusculas__
+#  2. Todo lo que se escribe despues del simbolo de "#", __R lo considera un comentario__
+#  3. Para __ejecutar una linea__ de comando se utiliza "Control + Enter"
+#  4. Para __limpiar la Consola__ se utiliza "Control + L"
+#  5. Utilizar _";"_ funciona para realizar más de una tarea en la misma línea de código
+#  6. En R existen un conjunto de __palabras reservadas__, como lo son: break, for, function, if, in, next, repeat, return, while, True, False, y algunas otras
+#  
 #****************************************************************************************
 
-# Imprime la secuencia del 100 al 130
+## Clases de objetos
 
-100:130
+class("a")
+class("R">"Python"); "R" > "Python"; 5<2
+class(2); class(as.integer(2)); class("2")
 
-# Asignacion a una varaible
+#Asignación e impresión de objetos 
 
-A <- 1:100
+ObjetoGuardado <- c(1,2,3,5,7,11,13,17)
+print(ObjetoGuardado)
+ObjetoGuardado
 
 # Operaciones: +, -, *, /, ^, log, exp, ...
 
-5 + 3
+ObjetoGuardado+5
+ObjetoGuardado*5
+ObjetoGuardado**(1/2)
+log(ObjetoGuardado)
+exp(ObjetoGuardado)
+round(exp(ObjetoGuardado), 2)
 
-a <- 5 + 3
-
-a * 10
-
-# Asignacion e impresion de variables
-
-Dado <- 1:6
-
-Dado
+## Clases de objetos (Vectores y listas)
 
 # Para revisar cuantos elementos hemos escrito:
 
 ls() # "ls" lista todos los elementos contenidos en Global Enviroment
 
-# Vectores, definicion y operaciones:
+# ## Clases de objetos (Vectores y listas)
 
-I <- c(1, 1, 1, 1, 1, 1)
+class(ObjetoGuardado)
 
-II <- rep(1, 6)
+I <- c(1, 1, 1, 1, 1, 1,1,1)
 
-Dado %*% I # Producto punto entre vectores
+ObjetoGuardado %*% I # Producto punto entre vectores
 
-# Estadisticas, media, redondeo y muestreo:
+ListaGuardada <- list(c("Omar", "José"),c(24,29),c(TRUE, FALSE))
+ListaGuardada
 
-mean(Dado)
+class(ListaGuardada)
 
-pi # Algunas constantes: pi, exp(1), etc.
+## Clases de objetos (Matrix y DataFrame)
+M_object <-matrix(ObjetoGuardado, nrow = 3, ncol=2) #Generamos una matriz a partir del vector
+diagonal <- diag(3) #Generamos una matríz identidad de 3*3 
+M_object%*%diagonal #¿Por qué no imprime el resultado?
+t(M_object)%*%diagonal #¿Por qué esta sí funciona?
+solve(matrix(ObjetoGuardado, nrow = 3)) #Matriz inversa
 
-sample(1:100, size = 3)
+miData = data.frame(ListaGuardada) #Generamos un DataFrame a partir del objeto clase lista
+names(miData) = c("Nombre", "Edad", "PEA")#Le damos nombre a las columnas 
+miData #Imprimimos
 
-sample(C <- 1:100, size = 3)
+## Clases de objetos (Funciones)
 
-sample(C, size = 10)
+### Estadisticas, suma, media, desviación estándar y muestreo:
 
-args(sample) # Cuando se tenga duda de cuales son los argumentos de una funcion
+sum(ObjetoGuardado)
+mean(ObjetoGuardado)
+sd(ObjetoGuardado)
+###Las funciones necesitan ARGUMENTOS, en el caos siguiente el argumento es el tamaño de la muestra
+sample(ObjetoGuardado,3) 
+###Para conocer los argumentos d euna función, se puede utilizar args()
+args(sample)
 
-sample(C, size = 10, replace = TRUE)
-
-sample(C, size = 10, replace = FALSE)
-
-# Cual es la diferencia en un muestreo con reemplazo y en uno sin reemplazo????
-# Un ejemplo....
-
-sample(1:10, size = 10, replace = TRUE)
-
-sample(1:10, size = 10, replace = FALSE)
-
-args(round)
-
-round(0.123456789, digits = 3)
-
-round(0.123456789, digits = 4)
-
-round(0.123456789, digits = 5)
-
-round(0.123456789, digits = 6)
-
-round(mean(pi), 4)
-
-#****************************************************************************************
-# Funciones, en ocasiones es relevante usar funciones...
-# Funcion de lanzamiento de un Dado!!!
-
-# Caso 1. Funcion que NO requiere de ingresarle parametros
-
-roll <- function(){
-  Dado2 <- 1:6 # Definimos el objeto Dado
-  DDado <- sample(Dado2, size = 2, replace = TRUE) # Simulamos el lanzamiento de 2 dados
-  sum(DDado) # Suma del valor
+###Funciones creadas
+m_podada <- function(x, n){
+  N = length(x)
+  x = x[(n+1):(N-n)]
+  sum(x)/length(x)
 }
+###probar funcion
+m_podada(ObjetoGuardado,2)
+###Como alternativa podemos usar librerias que contengan un proceso como el que ocuparemos 
+install.packages("AER")
+library(AER)
 
-roll
-
-roll()
-
-# Caso 2. Funcion que SI requiere de ingresarle parametros
-
-roll2 <- function(X){
-  DDado <- sample(X, size = 2, replace = TRUE) # Simulamos el lanzamiento de 2 dado
-  sum(DDado)
-}
-
-roll2(Dado)
 
 #****************************************************************************************
 # Graficas
 
-x <- -10:10
-
-y <- x^3
-
-plot(x, y)
-
-plot(x, y, type = "o", col = "red", ylab = "y = f(x)", xlab = "x")
-
-plot(x, y, type = "l", col = "blue", ylab = "y = f(x)", xlab = "x")
+plot(ObjetoGuardado)
+plot(C)
 
 #****************************************************************************************
-# Coloquemos atributos a las variables:
+# Caso Práctico (Cálculo de riesgo sistémico de AMZN)
 
-Dado
+### Librería para descargar series financieras y graficarlas
+install.packages("quantmod")
+install.packages("highcharter")
+install.packages("ggplot2")
+library(quantmod)
+library(highcharter)
+library(ggplot2)
+options("getSymbols.warning4.0"=FALSE)
 
-attributes(Dado)
+### Descargamos la serie de las acciones de Amazon 
+getSymbols("AMZN")
+head(AMZN, 2)
+### Gráfico
+hchart(AMZN)
 
-names(Dado)
+### Descargamos la serie de las acciones de Amazon 
+getSymbols("NDAQ")
+head(AMZN, 2)
+### Gráfico
+hchart(NDAQ)
 
-names(Dado) <- c("Uno", "Dos", "Tres", "Cuatro", "Cinco", "Seis")
+## Series en Diferencias
 
-names(Dado)
+lnAMZN <- log(AMZN$AMZN.Adjusted)
+diffAMZN <- lnAMZN- Lag(lnAMZN)
+lnNDAQ <- log(NDAQ$NDAQ.Adjusted)
+diffNDAQ <- lnNDAQ - Lag(lnNDAQ)
 
-attributes(Dado)
 
-Dado
+#Gráfico de series en diferencia 
+par(mfrow=c(1,2))
+plot(diffAMZN)
+plot(diffNDAQ)
 
-names(Dado) <- NULL # Modificamos los nombres, los eliminamos
+## construir scatter plot de ambas series 
+class(AMZN)
 
-attributes(Dado)
+AMZNN<-as.numeric(diffAMZN); NASDAQQ<-as.numeric(diffNDAQ)
+### Análisis exploratorio de datos
+qplot(x=NASDAQQ, y=AMZNN)+
+  geom_smooth()
+### Análisis final
+ggplot()+
+  geom_point(aes(x=NASDAQQ, y=AMZNN, alpha=0.05))+
+  geom_smooth(aes(x=NASDAQQ, y=AMZNN), se=FALSE)+
+  labs(title="Gráfico de dispersión AMZN~NDAQ")
 
-Dado
-
-#****************************************************************************************
-# Matrices y Dimension:
-
-C # Retomamos una variable creada anteriormente
-
-dim(C)
-
-dim(C) <- c(10, 10)
-
-dim(C)
-
-C
-
-M <- matrix(1:9, nrow = 3)
-
-M
-
-A <- matrix(1:10, nrow = 5, byrow = TRUE)
-
-A
-
-B <- matrix(rep(1, 10), nrow = 5)
-
-B
-
-t(A) # Trasponer
-
-t(A)%*%B # Multiplicacion de matrices
-
-A%*%B # ¿Por qué no se puede hacer esta operacion?
-
-diag(M)
-
-C <- matrix(c(2, 4, 3, 1, 5, 7), nrow = 2, ncol = 3, byrow = TRUE)
-
-C
-
-D <- matrix(c(2, 4, 3, 1), nrow = 2, ncol = 2, byrow = TRUE)
-
-D
-
-solve(D) # Matriz inversa
-
-solve(D) %*% D
-
-M
-
-M[2, 3] # Seleccion de valores particulares de la matriz
-
-M[3, ]
-
-M[ , 2]
-
-M[c(1, 2), ]
-
-M[ , c(2, 3)]
-
-#****************************************************************************************
-# DATA FRAMES:
-# Un data Frame es una version bidimencional de las listas. Es decir, contienen titulos 
-# o nombres de cada variable y pueden contener valores numericos, categoricos o de texto 
-# en dichas variables
-
-DF_Cartas <- data.frame(Carta = c("As", "Dos", "Seis"), 
-                        Palo = c("Diamante", "Espada", "Diamante"), 
-                        Valor = c(1, 2, 3))
-
-DF_Cartas
-
-View(DF_Cartas)
-
-DF_Cartas$Valor # Seleccionamos una columna del Data Frame
-
-#
+### Para generar OLS
+reg1 <- lm(AMZNN~NASDAQQ)
+summary(reg1)
