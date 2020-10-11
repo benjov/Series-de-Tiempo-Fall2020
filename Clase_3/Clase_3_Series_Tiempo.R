@@ -206,4 +206,8 @@ acf(Pax_Metro,
     xlab = 'Resagos k en meses', 
     main="Funcion de Autocorrelación del número de pasajeros del metro")
 
+# Estadística Q
+
+Box.test(Pax_Metro, lag = 1)
+
 #
