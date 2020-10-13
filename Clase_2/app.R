@@ -59,7 +59,7 @@ server <- shinyServer(function(input, output) {
             #
             G_t <- data.matrix(data.frame(Caminata(Moneda, Soporte)[2]))
             #
-        plot(TT, G_t, col = "blue", type = "l", ylab = "Ganancias", xlab = "Tiempo", 
+        output<-plot(TT, G_t, col = "blue", type = "l", ylab = "Ganancias", xlab = "Tiempo", 
              ylim = c(-150,150), main="Simulacion caminos aleatorios")
             #
             par(new = TRUE)
