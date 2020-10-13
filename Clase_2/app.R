@@ -21,13 +21,13 @@ ui <- shinyUI(fluidPage(
     sidebarLayout(
         sidebarPanel(
             
-                sliderInput("Simula",
-                            "Numero de simulaciones:",
+                sliderInput("Time",
+                            "Numero de volados:",
                             min = 100,
                             max = 5000,
                             value = 1000),
             
-            sliderInput("bins",
+            sliderInput("N",
                         "Numero de caminos:",
                         min = 1,
                         max = 50,
@@ -48,9 +48,9 @@ server <- shinyServer(function(input, output) {
     output$distPlot <- renderPlot({
         
         # generate bins based on input$bins from ui.R
-        Soporte <- input$Simula
+        Soporte <- input$Time
         Moneda <- c(1,-1)
-        Caminos <- input$bins
+        Caminos <- input$N
         
         # draw the histogram with the specified number of bins
         
