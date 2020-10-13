@@ -9,20 +9,18 @@
 
 library(shiny)
 
-# Define UI for application that draws a histogram
+# Define UI
 ui <- shinyUI(fluidPage(
     
     # Application title
     titlePanel("Dibuja tu suerte"),
     
-    # Sidebar with a slider input for number of bins
-    
-    
+    #Slides
     sidebarLayout(
         sidebarPanel(
             
                 sliderInput("Time",
-                            "Numero de volados:",
+                            "Numero de simulaciones:",
                             min = 100,
                             max = 5000,
                             value = 1000),
@@ -36,30 +34,30 @@ ui <- shinyUI(fluidPage(
         
         # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("distPlot")
+            plotOutput("RandomWalks")
         )
     )
 ))
 
 
-# Define server logic required to draw a histogram
+# Define server logic required to draw a plot
 server <- shinyServer(function(input, output) {
     
-    output$distPlot <- renderPlot({
+    output$RandomWalks <- renderPlot({
         
-        # generate bins based on input$bins from ui.R
+        # generate t and N based on input$bins from ui.R
         Soporte <- input$Time
         Moneda <- c(1,-1)
         Caminos <- input$N
         
-        # draw the histogram with the specified number of bins
+        # draw the plot with the specified number of t and N
         
         for(i in 1:Caminos){
             TT <- data.matrix(data.frame(Caminata(Moneda, Soporte)[1]))
             #
             G_t <- data.matrix(data.frame(Caminata(Moneda, Soporte)[2]))
             #
-        output<-plot(TT, G_t, col = "blue", type = "l", ylab = "Ganancias", xlab = "Tiempo", 
+        output = plot(TT, G_t, col = "blue", type = "l", ylab = "Ganancias", xlab = "Tiempo", 
              ylim = c(-150,150), main="Simulacion caminos aleatorios")
             #
             par(new = TRUE)
