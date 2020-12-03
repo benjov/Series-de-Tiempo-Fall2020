@@ -144,4 +144,16 @@ IR_DLIPI
 
 plot(IR_DLIPI)
 
-#
+#**********************************************************
+
+IR_DLINPC_2 <- irf(VAR_p, n.ahead = 12, boot = TRUE, 
+                   ci = 0.95, response = "DLINPC",
+                   ortho = TRUE, cumulative = FALSE)
+
+plot(IR_DLINPC_2)
+
+IR_DLINPC_3 <- irf(VAR_p, n.ahead = 12, boot = TRUE, 
+                   ci = 0.95, response = "DLINPC",
+                   ortho = TRUE, cumulative = TRUE)
+
+plot(IR_DLINPC_3)

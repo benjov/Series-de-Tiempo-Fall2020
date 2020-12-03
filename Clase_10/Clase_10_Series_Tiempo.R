@@ -168,6 +168,8 @@ ggplot(data = Pronostico_Arima, aes(x = Periodo)) +
     caption = "Fuente: Elaboración propia"
   )
 
+options(scipen = 999) 
+
 ggsave("Pax_Nal_f.png", width = 20, height = 15, units = "cm")
 
 #

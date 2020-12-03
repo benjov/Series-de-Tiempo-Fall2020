@@ -115,7 +115,7 @@ summary(ca.jo(LDatos, type = "eigen", ecdet = "none", K = 3, spec = "longrun"))
 
 #
 
-CA_1 <- ca.jo(LDatos, type = "trace", ecdet = "trend", K = 3, spec = "longrun")
+CA_1 <- ca.jo(LDatos, type = "trace", ecdet = "const", K = 3, spec = "longrun")
 
 summary(CA_1)
 
@@ -126,9 +126,14 @@ TT <- ts(c(1:235),
          end = c(2019, 7), 
          freq = 12)
 
-U <- LDatos[ , 1] + 0.151162436*LDatos[ , 2] -
-     0.042650912*LDatos[ , 3] + 0.163804862*LDatos[ , 4] +
-     0.229295743*LDatos[ , 5] - 0.004350646*TT
+#U <- LDatos[ , 1] + 0.151162436*LDatos[ , 2] -
+#     0.042650912*LDatos[ , 3] + 0.163804862*LDatos[ , 4] +
+#     0.229295743*LDatos[ , 5] - 0.004350646*TT
+
+U <- LDatos[ , 1] + 0.32902416*LDatos[ , 2] -
+  0.09226732*LDatos[ , 3] - 3.14150738*LDatos[ , 4] +
+  1.98701625*LDatos[ , 5] - 0.19972818
+
 
 plot(U, 
      main = "Residuales de la Ecuación de Cointegración",
