@@ -1,110 +1,124 @@
 # Series de Tiempo, Diciembre de 2020
-# Clase 23. Datos Panel -- Raíces unitarias para panel
+# Clase 24. Datos Panel -- VAR(p)
 #****************************************************************************************
-#install.packages("plm")
+#install.packages("panelvar")
 #
 
-library(plm)
-library(ggplot2)
-library(reshape2)
+library(panelvar)
 
 # 
 #****************************************************************************************
-# Download data from library PLM
+# Ejemplo 1: Download data
 
-data("EmplUK", package="plm")
+# We used the dynamic panel literature by Arellano and Bond (1991), 
+# Blundell and Bond (1998) and Roodman (2009b). 
+# This data set describes employment, wages, capital and output of 140 firms in 
+# the United Kingdom from 1976 to 1984. 
+# We estimate: Employment is explained by past values of employment ("l" lags), 
+# current and first lag of wages and output and current value of capital. 
 
-data("Produc", package="plm")
+data("abdata")
 
-data("Grunfeld", package="plm")
-
-data("Wages", package="plm")
-
-# 
-#****************************************************************************************
-# Describe data
-
-names(Grunfeld)
-#  Grunfeld data (Grunfeld 1958) comprising 20 annual observations on
-#  the three variables real gross investment (invest), real value of 
-# the firm (value), and real value of the capital stock (capital) 
-# for 10 large US firms for the years 1935–1954
-
-head(Grunfeld)
-
-Invest <- data.frame(split( Grunfeld$inv, Grunfeld$firm )) # individuals in columns
-
-names(Invest)
-
-names(Invest) <- c("Firm_1", "Firm_2", "Firm_3", "Firm_4", "Firm_5", "Firm_6", "Firm_7",
-                   "Firm_8", "Firm_9", "Firm_10")
-
-names(Invest)
+names(abdata)
 
 # 
 #****************************************************************************************
-# Plot:
+# Estimación
 
-plot(Invest$Firm_1, type = "l", col = 1, ylim = c(0, 1500), lty = 1,
-     xlab = "Tiempo", ylab = "Real gross investment")
-lines(Invest$Firm_2, type = "l", col = 2, lty = 2)
-lines(Invest$Firm_3, type = "l", col = 3, lty = 1)
-lines(Invest$Firm_4, type = "l", col = 4, lty = 2)
-lines(Invest$Firm_5, type = "l", col = 5, lty = 1)
-lines(Invest$Firm_6, type = "l", col = 6, lty = 2)
-lines(Invest$Firm_7, type = "l", col = 7, lty = 1)
-lines(Invest$Firm_8, type = "l", col = 8, lty = 2)
-lines(Invest$Firm_9, type = "l", col = 9, lty = 1)
-lines(Invest$Firm_10, type = "l", col = 10, lty = 2)
-legend("topleft", legend=c("Firm_1", "Firm_2", "Firm_3", "Firm_4", "Firm_5",
-                           "Firm_6", "Firm_7", "Firm_8", "Firm_9", "Firm_10"),
-       col = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), lty = 1:2)
+?pvargmm
+
+Arellano_Bond_1991_table4b <- pvargmm(
+  dependent_vars = c("n"),
+  lags = 2,
+  exog_vars = c("w", "wL1", "k", "ys", "ysL1",
+                "yr1979", "yr1980", "yr1981", "yr1982",
+                "yr1983", "yr1984"),
+  transformation = "fd",
+  data = abdata,
+  panel_identifier = c("id", "year"),
+  steps = c("twostep"),
+  system_instruments = FALSE,
+  max_instr_dependent_vars = 99,
+  min_instr_dependent_vars = 2L,
+  collapse = FALSE)
+summary(Arellano_Bond_1991_table4b)
 
 # 
 #****************************************************************************************
-# Unit Root Test:
+# Ejemplo 2: Download data
 
-?purtest
-# test specifies the type of test to be performed among 
-# Levin et al. (2002), Im et al. (2003), Maddala and Wu (1999) and Hadri (2000)
+# We used the panel data set consists of 265 Swedish municipalities and 
+# covers 9 years (1979-1987). 
+# These variables include total expenditures (expenditures), 
+# total own-source revenues (revenues) and intergovernmental grants 
+# received by the municipality (grants). 
+# Source: Dahlberg and Johansson (2000) 
+# Grants from the central to the local government are of three kinds: 
+# support to municipalities with small tax capacity, 
+# grants toward the running of certain local government activities and 
+# grants toward certain investments.
 
-# Consider Levin et al. (2002)
-purtest(log(Invest), test = "levinlin", exo = "intercept", 
-        lags = "AIC", pmax = 4)
+data("Dahlberg")
 
-## same via:
-
-ts_LInvest <- ts(log(Invest), start = 1935, end = 1954, freq = 1)
-
-ts_DLInvest <- diff(ts(log(Invest), start = 1935, end = 1954, freq = 1), 
-                    lag = 1, differences = 1)
+names(Dahlberg)
 
 # 
-purtest(ts_LInvest, test = "levinlin", exo = "intercept", 
-        lags = "AIC", pmax = 4)
+#****************************************************************************************
+# Estimación
 
-summary(purtest(ts_LInvest, test = "levinlin", exo = "intercept", 
-                lags = "AIC", pmax = 4))
+ex1_dahlberg_data <- pvargmm(dependent_vars = c("expenditures", "revenues", "grants"),
+          lags = 1,
+          transformation = "fod",
+          data = Dahlberg,
+          panel_identifier=c("id", "year"),
+          steps = c("twostep"),
+          system_instruments = FALSE,
+          max_instr_dependent_vars = 99,
+          max_instr_predet_vars = 99,
+          min_instr_dependent_vars = 2L,
+          min_instr_predet_vars = 1L,
+          collapse = FALSE
+  )
+
+summary(ex1_dahlberg_data)
+
+# model selection procedure of Andrews and Lu (2001) to select the optimal lag length for our example
+
+Andrews_Lu_MMSC(ex1_dahlberg_data)
 
 #
-purtest(ts_DLInvest, test = "levinlin", exo = "intercept", 
-        lags = "AIC", pmax = 4)
+ex2_dahlberg_data <- pvargmm(dependent_vars = c("expenditures", "revenues", "grants"),
+                             lags = 2,
+                             transformation = "fod",
+                             data = Dahlberg,
+                             panel_identifier=c("id", "year"),
+                             steps = c("twostep"),
+                             system_instruments = FALSE,
+                             max_instr_dependent_vars = 99,
+                             max_instr_predet_vars = 99,
+                             min_instr_dependent_vars = 2L,
+                             min_instr_predet_vars = 1L,
+                             collapse = FALSE)
 
-summary(purtest(ts_DLInvest, test = "levinlin", exo = "intercept", 
-                lags = "AIC", pmax = 4))
+Andrews_Lu_MMSC(ex2_dahlberg_data)
 
-# Consider Im-Pesaran-Shin Unit-Root Test (2003)
+# stability of the autoregressive process:
+stab_ex1_dahlberg_data <- stability(ex1_dahlberg_data)
 
-purtest(ts_LInvest, test = "ips", exo = "intercept", 
-        lags = "AIC", pmax = 4)
+print(stab_ex1_dahlberg_data)
 
-summary(purtest(ts_LInvest, test = "ips", exo = "intercept", 
-                lags = "AIC", pmax = 4))
+plot(stab_ex1_dahlberg_data)
 
-#
-purtest(ts_DLInvest, test = "ips", exo = "intercept", 
-        lags = "AIC", pmax = 4)
+# generate impulse response functions.
+ex1_dahlberg_data_oirf <-  oirf(ex1_dahlberg_data, n.ahead = 8)
 
-summary(purtest(ts_DLInvest, test = "ips", exo = "intercept", 
-                lags = "AIC", pmax = 4))
+ex1_dahlberg_data_girf <-  girf(ex1_dahlberg_data, n.ahead = 8, ma_approx_steps= 8)
 
+ex1_dahlberg_data_bs <-  bootstrap_irf(ex1_dahlberg_data, typeof_irf = c("GIRF"),
+                                       n.ahead = 8,
+                                       nof_Nstar_draws = 500,
+                                       confidence.band = 0.95)
+
+plot(ex1_dahlberg_data_girf, ex1_dahlberg_data_bs)
+
+# 
